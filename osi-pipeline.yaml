@@ -1,0 +1,17 @@
+# OpenSearch Ingestion Pipeline Configuration
+version: "2"
+log-pipeline:
+  source:
+    http:
+      path: "/logs"
+  processor:
+    - date:
+        from_time_received: true
+        destination: "@timestamp"
+  sink:
+    - opensearch:
+        hosts: [ "https://<PLACEHOLDER_OPENSEARCH_DOMAIN_ENDPOINT>" ]
+        index: "system-logs"
+        aws:
+          sts_role_arn: "arn:aws:iam::<ACCOUNT_ID>:role/OSI-To-OpenSearch-Role"
+          region: "<REGION>"
